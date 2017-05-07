@@ -25,37 +25,29 @@ var buttonIds = ["label[for=ritema]", "label[for=ritemb]", "label[for=ritemc]", 
 
 
 
-console.log($('input[name="ritem"]:checked').val());
+
 
 // do not display 
 
 
 window.onload = function() {
 
-	var timer = $("#timer");
 
-    
-    var counting = false;
-    $("form").hide();
+	// ********* INITIAL SETTINGS **********************************************//
+	
+	// hide the form
+	$("form").hide();
 
-    function countdown(count) {
-        
-        if (!counting) {
-            counting = true;
-            timer.html(count);
-            
-            var time = setInterval(function() {
-                if (count >= 0) {
-                    timer.html(count);
-                    count--;
-                } else {
-                    clearInterval(time);
-                    //count = arguments[0];
-                    counting = false;
-                }
-            }, 1000);
-        }
-    }
+	// do not start counting until a question pops up
+	var countNow = false;
+
+	// question pointer
+	var pointer = 0;
+
+	// number of seconds for each question
+	var num = 10;
+	
+	
 
     // ********* EVENT LISTENERs **********************************************//
     
@@ -63,16 +55,38 @@ window.onload = function() {
     var btn = document.getElementById("btn");
     
     btn.onclick = function() {
-        countdown(30);
         $("form").show();
-       
+        newQuestion();     
     };
 
-    insertText("#Mathquestion", quiz[0].question);
-    insertButtons(quiz[0].answers);
+    // Once the form is submitted
+    $(".radio-item label").click(function( event ) {
+  		var answer = ($(this).attr('for'));
+  		
+  		// check answers
+  		checkAnswer(answer);
+
+  		// update statistics
+
+  		// display for correct answer
+
+  		// display for
+
+  		// update new quesion
+  		pointer++;
+
+  		// Offer a new question as long as questions remain
+  		if (pointer < quiz.length)
+  			newQuestion(); 
+
+	});
+
+    
+
+
   
 
-    // ********* EVENT LISTENERs **********************************************//
+    // ********* FUNCTIONS ***************************************************//
 
 
     // Insert text into the buttons
@@ -91,15 +105,46 @@ window.onload = function() {
     }
 
     // check user answer - if the user is correct, then return true
-    function checkAnswer() {
-    	
-    	// get user response
-    	console.log($('input[name="ritem"]:checked').val());
-    	console.log("This is working");
+    function checkAnswer(guess) {
+    	console.log(guess);
     	// get correct answer
     	// compare values
+    	//if (guess == )
     }
 
-    checkAnswer();
+    
+    function countdown(count) {
+
+    	var timer = $("#timer");
+        
+        if (!countNow) {
+            countNow = true;
+            timer.html(count);
+            
+            var time = setInterval(function() {
+                if (count >= 0) {
+                    timer.html(count);
+                    count--;
+                } else {
+                    clearInterval(time);
+                    //count = arguments[0];
+                    countNow = false;
+                }
+            }, 1000);
+        }
+    }
+
+    function newQuestion() {
+
+    	// start countdown
+    	countdown(num);
+
+    	// insert questions
+    	insertText("#Mathquestion", quiz[pointer].question);
+    	
+    	// insert Buttons
+    	insertButtons(quiz[pointer].answers);
+    }
+
 
 };
