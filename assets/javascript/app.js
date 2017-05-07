@@ -77,7 +77,17 @@ window.onload = function() {
 
   		// Offer a new question as long as questions remain
   		if (pointer < quiz.length)
+  			
+  			// stop timer
+  			countNow = false;
+
+  			// provide another question
   			newQuestion(); 
+
+  			// restart countdown	
+    		countdown(num);
+
+
 
 	});
 
