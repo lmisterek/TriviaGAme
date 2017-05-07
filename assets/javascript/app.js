@@ -4,19 +4,19 @@ var quiz = [{
 		
 		"question": "The numerals used by today's mathematicians were developed in ...",
 		"answers": ["Rome", "Arabia", "France", "Greece", "England"],
-		"correct": "Rome"
+		"correct": "a"
 	}
 	,
 	{
 		"question": "What set of positive integers satisfies the equation, a squared + b squared = c squared?",
 		"answers": ["trigonometric identities", "Cartesian coordinates", "Pythagorean triples", "Fibonacci sequences", "ordered pairs"],
-		"correct": "Pythagorean triples"
+		"correct": "c"
 	},
 
 	{
 		"question": "Which ancient Egyptian unit of measurement was set as the distance between the elbow and the tip of the middle finger?",
 		"answers": ["cubit", "stone", "karat", "quire", "parsec"],
-		"correct": "cubit"
+		"correct": "a"
 	}
 
 ]
@@ -61,10 +61,28 @@ window.onload = function() {
 
     // Once the form is submitted
     $(".radio-item label").click(function( event ) {
-  		var answer = ($(this).attr('for'));
   		
-  		// check answers
-  		checkAnswer(answer);
+    	// get the multiple choice value off of the radio item label id
+  		var answer = ($(this).attr('for').slice(-1));
+  		
+  		// If the answer is correct
+  		if(isCorrect(answer)) {
+
+  		}
+  		
+  		//If the player chooses the wrong answer, tell the player they selected the wrong option 
+  		//and then display the correct answer. Wait a few seconds, then show the next question.
+  		else if (true) {
+
+
+
+  		}
+  		
+  		// If the player runs out of time, tell the player that time's up and display the 
+  		// correct answer. Wait a few seconds, then show the next question.
+  		else if (true){
+
+  		}
 
   		// update statistics
 
@@ -76,8 +94,8 @@ window.onload = function() {
   		pointer++;
 
   		// Offer a new question as long as questions remain
-  		if (pointer < quiz.length)
-  			
+  		if (pointer < quiz.length) {
+
   			// stop timer
   			countNow = false;
 
@@ -86,8 +104,11 @@ window.onload = function() {
 
   			// restart countdown	
     		countdown(num);
-
-
+  		}
+  		
+  		// On the final screen, show the number of correct answers, incorrect answers, and an 
+  		// option to restart the game (without reloading the page).	
+  			
 
 	});
 
@@ -102,11 +123,10 @@ window.onload = function() {
     // Insert text into the buttons
     function insertButtons(array){
 
-    		 $("label[for=ritema]").html(array[0]);
-    		 $("label[for=ritemb]").html(array[1]);
-    		 $("label[for=ritemc]").html(array[2]);
-    		 $("label[for=ritemd]").html(array[3]);
-    		 $("label[for=riteme]").html(array[4]);
+    		 for (var i = 0; i < 5; i++){
+    		 	$(buttonIds[i]).html(array[i]);
+    		 }
+
     }
 
     // insert Text into an html element
@@ -115,11 +135,12 @@ window.onload = function() {
     }
 
     // check user answer - if the user is correct, then return true
-    function checkAnswer(guess) {
-    	console.log(guess);
-    	// get correct answer
-    	// compare values
-    	//if (guess == )
+    function isCorrect(guess) {
+    	// if the guess is currect, return true
+    	if(guess == quiz[pointer].correct)
+    		return true;
+    	else
+    		return false;
     }
 
     
@@ -145,6 +166,9 @@ window.onload = function() {
     }
 
     function newQuestion() {
+
+    	// clear checked button
+    	$('input:radio').prop('checked', false);
 
     	// start countdown
     	countdown(num);
