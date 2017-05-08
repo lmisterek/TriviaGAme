@@ -3,19 +3,19 @@
 var quiz = [{
 		
 		"question": "The numerals used by today's mathematicians were developed in ...",
-		"answers": ["Rome", "Arabia", "France", "Greece", "England"],
+		"choices": ["Rome", "Arabia", "France", "Greece", "England"],
 		"correct": "a"
 	}
 	,
 	{
 		"question": "What set of positive integers satisfies the equation, a squared + b squared = c squared?",
-		"answers": ["trigonometric identities", "Cartesian coordinates", "Pythagorean triples", "Fibonacci sequences", "ordered pairs"],
+		"choices": ["trigonometric identities", "Cartesian coordinates", "Pythagorean triples", "Fibonacci sequences", "ordered pairs"],
 		"correct": "c"
 	},
 
 	{
 		"question": "Which ancient Egyptian unit of measurement was set as the distance between the elbow and the tip of the middle finger?",
-		"answers": ["cubit", "stone", "karat", "quire", "parsec"],
+		"choices": ["cubit", "stone", "karat", "quire", "parsec"],
 		"correct": "a"
 	}
 
@@ -23,6 +23,7 @@ var quiz = [{
 
 var buttonIds = ["label[for=ritema]", "label[for=ritemb]", "label[for=ritemc]", "label[for=ritemd]", "label[for=riteme]"  ]
 
+var inputIds = ["ritema", "ritemb", "ritemc", "ritemd", "riteme"  ]
 
 
 
@@ -56,19 +57,24 @@ window.onload = function() {
     
     btn.onclick = function() {
         $("form").show();
-        newQuestion();     
+        newQuestionPage();     
     };
 
-    // Once the form is submitted
+    // Uncheck the radio button after inputting answer
+    $( "input[type='radio']" ).click(function() {
+  		this.checked = false;
+	});
+
+
     $(".radio-item label").click(function( event ) {
   		
     	// get the multiple choice value off of the radio item label id
-  		var answer = ($(this).attr('for').slice(-1));
+  		var response = ($(this).attr('for').slice(-1));
   		
   		// If the answer is correct
-  		if(isCorrect(answer)) {
+  		if(isCorrect(response)) {
 
-  		}
+  		}	
   		
   		//If the player chooses the wrong answer, tell the player they selected the wrong option 
   		//and then display the correct answer. Wait a few seconds, then show the next question.
@@ -99,11 +105,14 @@ window.onload = function() {
   			// stop timer
   			countNow = false;
 
-  			// provide another question
-  			newQuestion(); 
+  			// provide another question page with and pass the button id
+  			newQuestionPage(response); 
 
-  			// restart countdown	
-    		countdown(num);
+  			// remove the checked property
+  			//$("#quiz_form").trigger('reset');
+  			// Add the checked property
+
+
   		}
   		
   		// On the final screen, show the number of correct answers, incorrect answers, and an 
@@ -121,12 +130,9 @@ window.onload = function() {
 
 
     // Insert text into the buttons
-    function insertButtons(array){
-
-    		 for (var i = 0; i < 5; i++){
-    		 	$(buttonIds[i]).html(array[i]);
-    		 }
-
+    function insertButtons(choices){
+    	for (var i = 0; i < 5; i++)
+    		$(buttonIds[i]).html(choices[i]);
     }
 
     // insert Text into an html element
@@ -136,14 +142,12 @@ window.onload = function() {
 
     // check user answer - if the user is correct, then return true
     function isCorrect(guess) {
-    	// if the guess is currect, return true
     	if(guess == quiz[pointer].correct)
     		return true;
     	else
     		return false;
     }
 
-    
     function countdown(count) {
 
     	var timer = $("#timer");
@@ -165,10 +169,11 @@ window.onload = function() {
         }
     }
 
-    function newQuestion() {
+    // var id = $("#riteme");
+    // console.log(id);
+    // id.prop("checked", true);
 
-    	// clear checked button
-    	$('input:radio').prop('checked', false);
+    function newQuestionPage(letter) {
 
     	// start countdown
     	countdown(num);
@@ -177,8 +182,12 @@ window.onload = function() {
     	insertText("#Mathquestion", quiz[pointer].question);
     	
     	// insert Buttons
-    	insertButtons(quiz[pointer].answers);
-    }
+    	insertButtons(quiz[pointer].choices);
+
+
+		}
+
+		
 
 
 };
