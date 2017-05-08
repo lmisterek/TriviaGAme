@@ -83,10 +83,16 @@ button {
 
 }
 
-#thumbsup {
+#thumbsup, #tears {
 	position: absolute;
     top: 30%;
     left: 35%;
     margin-left: -(X/2)px;
     margin-top: -(Y/2)px;
+}
+
+#answerDisplay {
+	text-align: center;
+	font-size: 200%; 
+	font-weight: bold;	
 }

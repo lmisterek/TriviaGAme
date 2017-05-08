@@ -1,4 +1,5 @@
 
+// ********* GOLOBAL VARIABLES **********************************************//
 // Create a json array of questions with answer choices and correct answers
 var quiz = [{
 		
@@ -23,12 +24,13 @@ var quiz = [{
 
 var buttonIds = ["label[for=ritema]", "label[for=ritemb]", "label[for=ritemc]", "label[for=ritemd]", "label[for=riteme]"  ]
 
-var inputIds = ["ritema", "ritemb", "ritemc", "ritemd", "riteme"  ]
+var images = { "thumbsup":"<img src='assets/images/congrats.gif' alt='Thumbs UP' id='thumbsup' style='width:304px;height:228px;'>",
+				"tears":"<img src='assets/images/sadface.gif' alt='Crying Sad face' id='tears' style='width:304px;height:228px;'>"
+			}
 
+// html for displaying correct answer
+var htmlAnswer = "<div class='transbox'><div class='page-header'><h1>The correct answer was:  </h1><p id = 'answerDisplay'/></div></div>";
 
-
-
-// do not display 
 
 
 window.onload = function() {
@@ -47,6 +49,10 @@ window.onload = function() {
 
 	// number of seconds for each question
 	var num = 10;
+
+	// number of correct choices
+	var numCorrect = 0;
+	var numWrong = 0;
 	
 	
 
@@ -70,37 +76,62 @@ window.onload = function() {
   		
     	// get the multiple choice value off of the radio item label id
   		var response = ($(this).attr('for').slice(-1));
+  		var correct = quiz[pointer].correct;
+  		
+  		// get the label of the correct answer
+  		var correctResponse = $("label[for=ritem" + correct +"]").html();
   		
   		// If the player selects the correct answer, show a screen congratulating them for 
   		// choosing the right option. After a few seconds, display the next question -- do this 
   		// without user input.
-  		if(isCorrect(response)) {
+  		
+  		if(isCorrect(response) && countNow) {
   			 
   			// Save old html
   			var oldhtml = $("body").html();
   			
-  			$("body").html("<img src='assets/images/congrats.gif' alt='Thumbs UP' id='thumbsup' style='width:304px;height:228px;'>");
+  			$("body").html(images.thumbsup);
 
   			// show the new question after 2 seconds
   			setTimeout(function(){
   					$("body").html(oldhtml);
   					newQuestionPage(); 
 			}, 2500);
-		}	
-  		
-  		//If the player chooses the wrong answer, tell the player they selected the wrong option 
+
+  			numCorrect++;
+
+		}
+
+		//If the player chooses the wrong answer, tell the player they selected the wrong option 
   		//and then display the correct answer. Wait a few seconds, then show the next question.
-  		else if (true) {
+		else if	(!isCorrect(response) && countNow){
 
+			// Save old html
+  			var oldhtml = $("body").html();
+  			
+  			$("body").html(images.tears);
 
+  			// show the correct answer
+  			setTimeout(function(){
+  				$("body").html(htmlAnswer);
+  				$("#answerDisplay").html(correctResponse);
 
-  		}
-  		
+			}, 2500);
+
+  			// show the new question after 2 seconds
+  			setTimeout(function(){
+  					$("body").html(oldhtml);
+  					newQuestionPage(); 
+			}, 5000);
+
+  			numWrong++;
+		}
+  				
   		// If the player runs out of time, tell the player that time's up and display the 
   		// correct answer. Wait a few seconds, then show the next question.
-  		else if (true){
+  		//else {
 
-  		}
+  		//}
 
   		// update statistics
 
