@@ -71,10 +71,19 @@ window.onload = function() {
     	// get the multiple choice value off of the radio item label id
   		var response = ($(this).attr('for').slice(-1));
   		
-  		// If the answer is correct
+  		// If the player selects the correct answer, show a screen congratulating them for 
+  		// choosing the right option. After a few seconds, display the next question -- do this 
+  		// without user input.
   		if(isCorrect(response)) {
+  			 
+  			//var oldhtml = $("body").html();
+  			$("body").html("<img src='assets/images/congrats.gif' alt='Thumbs UP' id='thumbsup' style='width:304px;height:228px;'>");
 
-  		}	
+  			// show the new question after 2 seconds
+  			//setTimeout(function(){
+  			//		$("body").html(oldhtml);
+			//}, 2500);
+		}	
   		
   		//If the player chooses the wrong answer, tell the player they selected the wrong option 
   		//and then display the correct answer. Wait a few seconds, then show the next question.
@@ -106,12 +115,7 @@ window.onload = function() {
   			countNow = false;
 
   			// provide another question page with and pass the button id
-  			newQuestionPage(response); 
-
-  			// remove the checked property
-  			//$("#quiz_form").trigger('reset');
-  			// Add the checked property
-
+  			newQuestionPage(); 
 
   		}
   		
@@ -148,6 +152,7 @@ window.onload = function() {
     		return false;
     }
 
+    // countdown timer
     function countdown(count) {
 
     	var timer = $("#timer");
@@ -169,11 +174,11 @@ window.onload = function() {
         }
     }
 
-    // var id = $("#riteme");
-    // console.log(id);
-    // id.prop("checked", true);
+    // creates a new question page for each quiz
+    function newQuestionPage() {
 
-    function newQuestionPage(letter) {
+    	// stop timer
+    	countNow = false;
 
     	// start countdown
     	countdown(num);

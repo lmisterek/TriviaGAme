@@ -82,3 +82,11 @@ button {
   background: #FF65FD;
 
 }
+
+#thumbsup {
+	position: absolute;
+    top: 30%;
+    left: 35%;
+    margin-left: -(X/2)px;
+    margin-top: -(Y/2)px;
+}
