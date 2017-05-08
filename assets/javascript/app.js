@@ -76,13 +76,16 @@ window.onload = function() {
   		// without user input.
   		if(isCorrect(response)) {
   			 
-  			//var oldhtml = $("body").html();
+  			// Save old html
+  			var oldhtml = $("body").html();
+  			
   			$("body").html("<img src='assets/images/congrats.gif' alt='Thumbs UP' id='thumbsup' style='width:304px;height:228px;'>");
 
   			// show the new question after 2 seconds
-  			//setTimeout(function(){
-  			//		$("body").html(oldhtml);
-			//}, 2500);
+  			setTimeout(function(){
+  					$("body").html(oldhtml);
+  					newQuestionPage(); 
+			}, 2500);
 		}	
   		
   		//If the player chooses the wrong answer, tell the player they selected the wrong option 
@@ -115,7 +118,7 @@ window.onload = function() {
   			countNow = false;
 
   			// provide another question page with and pass the button id
-  			newQuestionPage(); 
+  			//newQuestionPage(); 
 
   		}
   		
