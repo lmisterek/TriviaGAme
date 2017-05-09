@@ -48,7 +48,7 @@ window.onload = function() {
 	var pointer = 0;
 
 	// number of seconds for each question
-	var num = 10;
+	var num = 3;
 
 	// number of correct choices
 	var numCorrect = 0;
@@ -102,6 +102,8 @@ window.onload = function() {
 
 		}
 
+		 //If the player runs out of time, tell the player that time's up and 
+                    //display the correct answer. Wait a few seconds, then show the next question.
 		//If the player chooses the wrong answer, tell the player they selected the wrong option 
   		//and then display the correct answer. Wait a few seconds, then show the next question.
 		else if	(!isCorrect(response) && countNow){
@@ -109,8 +111,9 @@ window.onload = function() {
 			// Save old html
   			var oldhtml = $("body").html();
   			
+  			// Show the sad image
   			$("body").html(images.tears);
-
+  			
   			// show the correct answer
   			setTimeout(function(){
   				$("body").html(htmlAnswer);
@@ -127,19 +130,6 @@ window.onload = function() {
   			numWrong++;
 		}
   				
-  		// If the player runs out of time, tell the player that time's up and display the 
-  		// correct answer. Wait a few seconds, then show the next question.
-  		//else {
-
-  		//}
-
-  		// update statistics
-
-  		// display for correct answer
-
-  		// display for
-
-  		// update new quesion
   		pointer++;
 
   		// Offer a new question as long as questions remain
@@ -148,9 +138,6 @@ window.onload = function() {
   			// stop timer
   			countNow = false;
 
-  			// provide another question page with and pass the button id
-  			//newQuestionPage(); 
-
   		}
   		
   		// On the final screen, show the number of correct answers, incorrect answers, and an 
@@ -158,9 +145,6 @@ window.onload = function() {
   			
 
 	});
-
-    
-
 
   
 
@@ -196,21 +180,33 @@ window.onload = function() {
             timer.html(count);
             
             var time = setInterval(function() {
-                if (count >= 0) {
+                if (count > 0) {
                     timer.html(count);
                     count--;
-                } else {
-                    clearInterval(time);
-                    //count = arguments[0];
-                    countNow = false;
+
+                } else if( count == 0) {
+                	timer.html(count);
+                	clearInterval(time);
+                	pointer++;
+
+                	// show the new question page after 2 seconds
+  					setTimeout(function(){
+  						newQuestionPage(); 
+					}, 2000);           	
                 }
+ 
             }, 1000);
+
+
         }
+
+        
     }
 
     // creates a new question page for each quiz
     function newQuestionPage() {
 
+    	console.log("called");
     	// stop timer
     	countNow = false;
 
@@ -223,10 +219,6 @@ window.onload = function() {
     	// insert Buttons
     	insertButtons(quiz[pointer].choices);
 
-
 		}
-
-		
-
 
 };
