@@ -91,7 +91,7 @@ button {
     margin-top: -(Y/2)px;
 }
 
-#answerDisplay {
+#correctAnswer {
 	text-align: center;
 	font-size: 200%; 
 	font-weight: bold;	

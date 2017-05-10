@@ -29,7 +29,7 @@ var images = { "thumbsup":"<img src='assets/images/congrats.gif' alt='Thumbs UP'
 			}
 
 // html for displaying correct answer
-var htmlAnswer = "<div class='transbox'><div class='page-header'><h1>The correct answer was:  </h1><p id = 'answerDisplay'/></div></div>";
+var htmlAnswer = "<div class='page-header'><h1>The correct answer was:  </h1><p id = 'correctAnswer'/></div>";
 
 
 
@@ -45,7 +45,7 @@ window.onload = function() {
 	var countNow = false;
 
 	// question pointer
-	var pointer = 0;
+	var pointer = -1;
 
 	// number of seconds for each question
 	var num = 3;
@@ -69,32 +69,33 @@ window.onload = function() {
     // Uncheck the radio button after inputting answer
     $( "input[type='radio']" ).click(function() {
   		this.checked = false;
-	});
+  	});
 
 
-    $(".radio-item label").click(function( event ) {
-  		
+    $(".radio-item label").on("click", function(event) {
+  	//$(".transbox").delegate(".radio-item label", "click", function(event) {
+
     	// get the multiple choice value off of the radio item label id
   		var response = ($(this).attr('for').slice(-1));
   		var correct = quiz[pointer].correct;
-  		
   		// get the label of the correct answer
   		var correctResponse = $("label[for=ritem" + correct +"]").html();
   		
   		// If the player selects the correct answer, show a screen congratulating them for 
   		// choosing the right option. After a few seconds, display the next question -- do this 
   		// without user input.
-  		
-  		if(isCorrect(response) && countNow) {
-  			 
-  			// Save old html
-  			var oldhtml = $("body").html();
-  			
-  			$("body").html(images.thumbsup);
+  		if(isCorrect(response)) {
+
+
+  			$("form").hide();
+        $("#timer").hide();
+        $(".answerDisplay").html(images.thumbsup);
 
   			// show the new question after 2 seconds
   			setTimeout(function(){
-  					$("body").html(oldhtml);
+  	
+            $(".answerFeedback").hide();
+            $("form").show();
   					newQuestionPage(); 
 			}, 2500);
 
@@ -102,48 +103,40 @@ window.onload = function() {
 
 		}
 
-		 //If the player runs out of time, tell the player that time's up and 
-                    //display the correct answer. Wait a few seconds, then show the next question.
+		 
 		//If the player chooses the wrong answer, tell the player they selected the wrong option 
   		//and then display the correct answer. Wait a few seconds, then show the next question.
 		else if	(!isCorrect(response) && countNow){
 
-			// Save old html
-  			var oldhtml = $("body").html();
   			
-  			// Show the sad image
-  			$("body").html(images.tears);
+        $("form").hide();
+        $("#timer").hide();
+        $(".answerFeedback").html(images.tears);
   			
   			// show the correct answer
   			setTimeout(function(){
-  				$("body").html(htmlAnswer);
-  				$("#answerDisplay").html(correctResponse);
+          $(".answerFeedback").hide();
+          $(".answerDisplay").show();
+  				$(".answerDisplay").html(htmlAnswer);
+  				$("#correctAnswer").html(correctResponse);
 
 			}, 2500);
 
   			// show the new question after 2 seconds
   			setTimeout(function(){
-  					$("body").html(oldhtml);
+  					$("form").show();
+            $(".answerDisplay").hide();
   					newQuestionPage(); 
 			}, 5000);
 
   			numWrong++;
 		}
   				
-  		pointer++;
-
-  		// Offer a new question as long as questions remain
-  		if (pointer < quiz.length) {
-
-  			// stop timer
-  			countNow = false;
-
-  		}
   		
   		// On the final screen, show the number of correct answers, incorrect answers, and an 
   		// option to restart the game (without reloading the page).	
   			
-
+  
 	});
 
   
@@ -187,38 +180,50 @@ window.onload = function() {
                 } else if( count == 0) {
                 	timer.html(count);
                 	clearInterval(time);
-                	pointer++;
-
-                	// show the new question page after 2 seconds
-  					setTimeout(function(){
-  						newQuestionPage(); 
-					}, 2000);           	
+                	
+                	//If the player runs out of time, tell the player that time's up and 
+                    //display the correct answer. Wait a few seconds, then show the next question.
+  					//setTimeout(function(){
+  						
+				       	
                 }
  
             }, 1000);
 
+            //newQuestionPage(); 
 
-        }
-
-        
-    }
+        }   
+    };
 
     // creates a new question page for each quiz
     function newQuestionPage() {
 
-    	console.log("called");
+    	pointer++; 		// Offer a new question as long as questions remain
+    	if (pointer < quiz.length) {
+		
     	// stop timer
     	countNow = false;
 
     	// start countdown
     	countdown(num);
 
+    	console.log("Adding a new Question");
+
     	// insert questions
     	insertText("#Mathquestion", quiz[pointer].question);
     	
     	// insert Buttons
     	insertButtons(quiz[pointer].choices);
+    	
+    	}
+    
+    	else {
 
-		}
+    		// stop timer
+    		countNow = false;
+
+    	}
+		
+	}
 
 };
