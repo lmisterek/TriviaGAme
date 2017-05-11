@@ -86,20 +86,23 @@ window.onload = function() {
   		// without user input.
   		if(isCorrect(response)) {
 
-
+        // Hide the form and display the image
   			$("form").hide();
         $("#timer").hide();
+        console.log("in here");
+        $(".answerDisplay").show();
         $(".answerDisplay").html(images.thumbsup);
 
   			// show the new question after 2 seconds
   			setTimeout(function(){
   	
-            $(".answerFeedback").hide();
+            $(".answerDisplay").hide();
             $("form").show();
   					newQuestionPage(); 
-			}, 2500);
+			   }, 2500);
 
   			numCorrect++;
+        console.log(numCorrect);
 
 		}
 
@@ -107,8 +110,6 @@ window.onload = function() {
 		//If the player chooses the wrong answer, tell the player they selected the wrong option 
   		//and then display the correct answer. Wait a few seconds, then show the next question.
 		else if	(!isCorrect(response) && countNow){
-
-  			
         $("form").hide();
         $("#timer").hide();
         $(".answerFeedback").html(images.tears);
@@ -130,6 +131,7 @@ window.onload = function() {
 			}, 5000);
 
   			numWrong++;
+        console.log(numWrong);
 		}
   				
   		
@@ -182,7 +184,7 @@ window.onload = function() {
                 	clearInterval(time);
                 	
                 	//If the player runs out of time, tell the player that time's up and 
-                    //display the correct answer. Wait a few seconds, then show the next question.
+                  //display the correct answer. Wait a few seconds, then show the next question.
   					//setTimeout(function(){
   						
 				       	
