@@ -5,19 +5,22 @@ var quiz = [{
 		
 		"question": "The numerals used by today's mathematicians were developed in ...",
 		"choices": ["Rome", "Arabia", "France", "Greece", "England"],
-		"correct": "a"
+		"correct": "a",
+    "answer": "Rome"
 	}
 	,
 	{
 		"question": "What set of positive integers satisfies the equation, a squared + b squared = c squared?",
 		"choices": ["trigonometric identities", "Cartesian coordinates", "Pythagorean triples", "Fibonacci sequences", "ordered pairs"],
-		"correct": "c"
+		"correct": "c",
+    "answer": "Pythagorean triples"
 	},
 
 	{
 		"question": "Which ancient Egyptian unit of measurement was set as the distance between the elbow and the tip of the middle finger?",
 		"choices": ["cubit", "stone", "karat", "quire", "parsec"],
-		"correct": "a"
+		"correct": "a",
+    "answer": "cubit"
 	}
 
 ]
@@ -25,8 +28,8 @@ var quiz = [{
 var buttonIds = ["label[for=ritema]", "label[for=ritemb]", "label[for=ritemc]", "label[for=ritemd]", "label[for=riteme]"  ]
 
 var images = { "thumbsup":"<img src='assets/images/congrats.gif' alt='Thumbs UP' id='thumbsup' style='width:304px;height:228px;'>",
-				"tears":"<img src='assets/images/sadface.gif' alt='Crying Sad face' id='tears' style='width:304px;height:228px;'>"
-			}
+				"tears":"<img src='assets/images/sadface.gif' alt='Crying Sad face' id='tears' style='width:304px;height:228px;'>",
+        "timeUp": "<img src='assets/images/timeUp.png'; alt='Time UP' id='timeUp' style= 'width:304px;height:228px;'>"}
 
 // html for displaying correct answer
 var htmlAnswer = "<div class='page-header'><h1>The correct answer was:  </h1><p id = 'correctAnswer'/></div>";
@@ -53,10 +56,18 @@ window.onload = function() {
 	// number of correct choices
 	var numCorrect = 0;
 	var numWrong = 0;
-	
-	
 
-    // ********* EVENT LISTENERs **********************************************//
+  //var answer = quiz[pointer].correctResponse;
+	
+	
+  // ********* SCRIPT LOGIC **********************************************//
+  
+  if ($("#timer") === "0") {
+    console.log("Time up!");
+  }
+
+
+  // ********* EVENT LISTENERs **********************************************//
     
     //  Start button
     var btn = document.getElementById("btn");
@@ -73,13 +84,13 @@ window.onload = function() {
 
 
     $(".radio-item label").on("click", function(event) {
-  	//$(".transbox").delegate(".radio-item label", "click", function(event) {
 
     	// get the multiple choice value off of the radio item label id
   		var response = ($(this).attr('for').slice(-1));
   		var correct = quiz[pointer].correct;
-  		// get the label of the correct answer
-  		var correctResponse = $("label[for=ritem" + correct +"]").html();
+  		
+      // get the label of the correct answer
+  		correctResponse = $("label[for=ritem" + correct +"]").html();
   		
   		// If the player selects the correct answer, show a screen congratulating them for 
   		// choosing the right option. After a few seconds, display the next question -- do this 
@@ -106,8 +117,8 @@ window.onload = function() {
 
 		 
 		//If the player chooses the wrong answer, tell the player they selected the wrong option 
-  		//and then display the correct answer. Wait a few seconds, then show the next question.
-		else if	(!isCorrect(response) && countNow){
+    //and then display the correct answer. Wait a few seconds, then show the next question.
+		else if	(!isCorrect(response) && countNow || run){
         $("form").hide();
         $("#timer").hide();
         $(".answerFeedback").show();
@@ -130,7 +141,6 @@ window.onload = function() {
 			}, 5000);
 
   			numWrong++;
-        console.log(numWrong);
 		}
   				
   		
@@ -181,17 +191,29 @@ window.onload = function() {
                 } else if( count == 0) {
                 	timer.html(count);
                 	clearInterval(time);
-                	
-                	//If the player runs out of time, tell the player that time's up and 
-                  //display the correct answer. Wait a few seconds, then show the next question.
-  					//setTimeout(function(){
-  						
-				       	
+                  
+                  // If the player runs out of time, tell the player that time's up and 
+                  // display the correct answer. Wait a few seconds, then show the next question.
+                  $("form").hide();
+                  $("#timer").hide();
+                  $(".answerFeedback").show();
+                  $(".answerFeedback").html(images.timeUp);
+
+                  //run = true;
+
+                  // show the correct answer
+                  setTimeout(function(){
+                    $(".answerFeedback").hide();
+                    $(".answerDisplay").show();
+                    $(".answerDisplay").html(htmlAnswer);
+                    $("#correctAnswer").html(quiz[pointer].answer);
+
+                }, 2500);
+
+                 // numWrong++;
                 }
  
             }, 1000);
-
-            //newQuestionPage(); 
 
         }   
     };
@@ -207,8 +229,6 @@ window.onload = function() {
 
     	// start countdown
     	countdown(num);
-
-    	console.log("Adding a new Question");
 
     	// insert questions
     	insertText("#Mathquestion", quiz[pointer].question);
