@@ -102,8 +102,6 @@ window.onload = function() {
 			   }, 2500);
 
   			numCorrect++;
-        console.log(numCorrect);
-
 		}
 
 		 
@@ -112,6 +110,7 @@ window.onload = function() {
 		else if	(!isCorrect(response) && countNow){
         $("form").hide();
         $("#timer").hide();
+        $(".answerFeedback").show();
         $(".answerFeedback").html(images.tears);
   			
   			// show the correct answer
