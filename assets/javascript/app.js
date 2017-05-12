@@ -34,39 +34,24 @@ var images = { "thumbsup":"<img src='assets/images/congrats.gif' alt='Thumbs UP'
 // html for displaying correct answer
 var htmlAnswer = "<div class='page-header'><h1>The correct answer was:  </h1><p id = 'correctAnswer'/></div>";
 
+  // number of seconds for each question
+  var num = 5;  
+  
+  // do not start counting until a question pops up
+  var countNow;
 
+  // question pointer
+  var pointer;
 
+  // number of correct choices
+  var numCorrect;
+  var numWrong;
+
+// Use window.onload for 
 window.onload = function() {
 
-
-	// ********* INITIAL SETTINGS **********************************************//
-	
-	// hide the form
-	$("form").hide();
-
-  // hide the stats
-  $("#stats").hide();
-
-	// do not start counting until a question pops up
-	var countNow = false;
-
-	// question pointer
-	var pointer = -1;
-
-	// number of seconds for each question
-	var num = 5;
-
-	// number of correct choices
-	var numCorrect = 0;
-	var numWrong = 0;
-	
-	
-  // ********* SCRIPT LOGIC **********************************************//
-  
-  if ($("#timer") === "0") {
-    console.log("Time up!");
-  }
-
+  // Set the initial settings of the page
+  reset();
 
   // ********* EVENT LISTENERs **********************************************//
     
@@ -177,7 +162,6 @@ window.onload = function() {
 
       // question pointer
       pointer = -1;
-
 
       // number of correct choices
       numCorrect = 0;

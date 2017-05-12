@@ -89,6 +89,7 @@ img {
     left: 35%;
     margin-left: -(X/2)px;
     margin-top: -(Y/2)px;
+    max-width: 100%;
 }
 
 #correctAnswer {
@@ -97,7 +98,31 @@ img {
 	font-weight: bold;	
 }
 
+
 #stats {
   padding: 25px;
   font-size: 200%;
+}
+
+@media (max-width: 400px) {
+img {
+    top: 10%;
+    left: 15%;
+    right: 15%;
+    margin-left: -(X/5)px;
+    margin-top: -(Y/5)px;
+    max-width: 200px;
+    align-self: center;
+}
+
+h1 {
+  font-size: 200%; 
+}
+
+#correctAnswer {
+  font-size: 150%; 
+}
+
+
+
 }
