@@ -78,6 +78,16 @@ window.onload = function() {
         newQuestionPage();     
     };
 
+        //  Start button
+    var restart = document.getElementById("restart");
+    
+    restart.onclick = function() {
+
+        reset();
+        $("form").show();
+        newQuestionPage();     
+    };
+
     // Uncheck the radio button after inputting answer
     $( "input[type='radio']" ).click(function() {
   		this.checked = false;
@@ -164,17 +174,16 @@ window.onload = function() {
       $("#stats").hide();
 
       // do not start counting until a question pops up
-      var countNow = false;
+      countNow = false;
 
       // question pointer
-      var pointer = -1;
-
-      // number of seconds for each question
-      var num = 3;
+      pointer = -1;
 
       // number of correct choices
-      var numCorrect = 0;
-      var numWrong = 0;
+      numCorrect = 0;
+      numWrong = 0;
+
+      console.log("completed reset");
 
     }
     
