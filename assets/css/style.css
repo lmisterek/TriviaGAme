@@ -96,3 +96,8 @@ img {
 	font-size: 200%; 
 	font-weight: bold;	
 }
+
+#stats {
+  padding: 25px;
+  font-size: 200%;
+}

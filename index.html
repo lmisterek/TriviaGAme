@@ -37,19 +37,27 @@
 </head>
 <body class="background">
 
-  <!-- Primary Page Layout
+  <!-- All the page content is contained within the transparent box
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="transbox">
     <div class="page-header">
       <h1>Math History Trivia</h1>      
     </div>
  
+ <!-- Display the Countdown Timer
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div id="timer"><button id="btn">start</button> </div>
   
   
   <!-- The above form looks like this -->
     <form class="container" id="quiz_form">
+
+  <!-- The Question for the Quiz
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
       <p class="question"><span id= "Mathquestion"></span></p>
+
+  <!-- Radio Buttons
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="radio-item">
     <input type="radio" id="ritema" name="ritem" value="ropt1">
         <label for="ritema"></label>
@@ -71,12 +79,27 @@
         <label for="riteme"></label>
     </div>
   </form>
+        
+<!-- Display the Correct Answer
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <div class="answerFeedback">
         </div>
         <div class="answerDisplay">
         </div>
 
-  </div>
+<!-- Display Wins and Losses
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+ <div id="stats">
+  <p>Number of wins:   <span id="wins"></span></p>
+  <p>Number of losses:   <span id="losses"></span></p>
+</div>
+
+
+
+</div>  <!-- End of Transbox
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+
    
 
 <!-- End Document

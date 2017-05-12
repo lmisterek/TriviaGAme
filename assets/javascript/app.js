@@ -44,6 +44,9 @@ window.onload = function() {
 	// hide the form
 	$("form").hide();
 
+  // hide the stats
+  $("#stats").hide();
+
 	// do not start counting until a question pops up
 	var countNow = false;
 
@@ -51,13 +54,11 @@ window.onload = function() {
 	var pointer = -1;
 
 	// number of seconds for each question
-	var num = 3;
+	var num = 1;
 
 	// number of correct choices
 	var numCorrect = 0;
 	var numWrong = 0;
-
-  //var answer = quiz[pointer].correctResponse;
 	
 	
   // ********* SCRIPT LOGIC **********************************************//
@@ -139,11 +140,12 @@ window.onload = function() {
 			}, 5000);
 
   			numWrong++;
+
 		}
   				
   		
-  		// On the final screen, show the number of correct answers, incorrect answers, and an 
-  		// option to restart the game (without reloading the page).	
+
+
   			
   
 	});
@@ -152,7 +154,30 @@ window.onload = function() {
 
     // ********* FUNCTIONS ***************************************************//
 
+    // Function to set default values
+    function reset() {
 
+      // hide the form
+      $("form").hide();
+
+      // hide the stats
+      $("#stats").hide();
+
+      // do not start counting until a question pops up
+      var countNow = false;
+
+      // question pointer
+      var pointer = -1;
+
+      // number of seconds for each question
+      var num = 3;
+
+      // number of correct choices
+      var numCorrect = 0;
+      var numWrong = 0;
+
+    }
+    
     // Insert text into the buttons
     function insertButtons(choices){
     	for (var i = 0; i < 5; i++)
@@ -189,10 +214,12 @@ window.onload = function() {
 
                 } else if( count == 0) {
                 	timer.html(count);
+                  
                   // If the player runs out of time, tell the player that time's up and 
                   // display the correct answer. Wait a few seconds, then show the next question.
                   clearInterval(time);      
                   displayImage();
+                  numWrong++;
 
                 }
  
@@ -226,7 +253,15 @@ window.onload = function() {
     		// stop timer
     		countNow = false;
 
+        // On the final screen, show the number of correct answers, incorrect answers, and an 
+        // option to restart the game (without reloading the page). 
+        $("form").hide();
+        $("#stats").show();
+
+        finishGame();
+
     	}
+
 		
 	}
 
@@ -248,18 +283,20 @@ window.onload = function() {
                 );
 
                   setTimeout(function(){
-                   newQuestionPage();
                    $(".answerDisplay").hide();
-                   $("form").show();
-                   console.log("now");
+                   $("form").show(); 
+                   newQuestionPage();
+                   
 
                   },
                   5000
                 );
 
-           }       
-                
+           } 
+  function finishGame() {
+      $("#wins").html(numCorrect);
+      $("#losses").html(numWrong);
 
-                  
+  }                     
 
 };
