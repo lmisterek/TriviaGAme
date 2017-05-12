@@ -54,7 +54,7 @@ window.onload = function() {
 	var pointer = -1;
 
 	// number of seconds for each question
-	var num = 1;
+	var num = 5;
 
 	// number of correct choices
 	var numCorrect = 0;
@@ -82,7 +82,6 @@ window.onload = function() {
     var restart = document.getElementById("restart");
     
     restart.onclick = function() {
-
         reset();
         $("form").show();
         newQuestionPage();     
@@ -100,14 +99,14 @@ window.onload = function() {
   		var response = ($(this).attr('for').slice(-1));
   		
       // get the label of the correct answer
-  		correctResponse = quiz[pointer].answer;
+  		var correctResponse = quiz[pointer].answer;
   		
   		// If the player selects the correct answer, show a screen congratulating them for 
   		// choosing the right option. After a few seconds, display the next question -- do this 
   		// without user input.
-  		if(isCorrect(response)) {
+  		if(isCorrect(response) && countNow) {
 
-        // Hide the form and display the image
+        // Hide the form and timer,then display the image for a correct response
   			$("form").hide();
         $("#timer").hide();
         $(".answerDisplay").show();
@@ -115,13 +114,15 @@ window.onload = function() {
 
   			// show the new question after 2 seconds
   			setTimeout(function(){
-  	
             $(".answerDisplay").hide();
             $("form").show();
   					newQuestionPage(); 
 			   }, 2500);
 
   			numCorrect++;
+
+        // Stop Timer
+        clearInterval(window.myTimer);
 		}
 
 		 
@@ -151,6 +152,9 @@ window.onload = function() {
 
   			numWrong++;
 
+        // Stop Timer
+        clearInterval(window.myTimer);
+
 		}
   				
   		
@@ -179,12 +183,10 @@ window.onload = function() {
       // question pointer
       pointer = -1;
 
+
       // number of correct choices
       numCorrect = 0;
       numWrong = 0;
-
-      console.log("completed reset");
-
     }
     
     // Insert text into the buttons
@@ -216,12 +218,12 @@ window.onload = function() {
             timer.html(count);
             $("#timer").show();
             
-            var time = setInterval(function() {
+            window.myTimer = setInterval(function() {
                 if (count > 0) {
                     timer.html(count);
                     count--;
 
-                } else if( count == 0) {
+                } else if(count == 0) {
                 	timer.html(count);
                   
                   // If the player runs out of time, tell the player that time's up and 
@@ -234,7 +236,8 @@ window.onload = function() {
  
             }, 1000);
 
-        }   
+        } 
+
     };
 
     // creates a new question page for each quiz
@@ -246,14 +249,14 @@ window.onload = function() {
     	// stop timer
     	countNow = false;
 
-    	// start countdown
-    	countdown(num);
-
     	// insert questions
     	insertText("#Mathquestion", quiz[pointer].question);
     	
     	// insert Buttons
     	insertButtons(quiz[pointer].choices);
+
+            // start countdown
+      countdown(num);
     	
     	}
     
