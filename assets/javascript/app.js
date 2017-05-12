@@ -87,10 +87,9 @@ window.onload = function() {
 
     	// get the multiple choice value off of the radio item label id
   		var response = ($(this).attr('for').slice(-1));
-  		var correct = quiz[pointer].correct;
   		
       // get the label of the correct answer
-  		correctResponse = $("label[for=ritem" + correct +"]").html();
+  		correctResponse = quiz[pointer].answer;
   		
   		// If the player selects the correct answer, show a screen congratulating them for 
   		// choosing the right option. After a few seconds, display the next question -- do this 
@@ -100,7 +99,6 @@ window.onload = function() {
         // Hide the form and display the image
   			$("form").hide();
         $("#timer").hide();
-        console.log("in here");
         $(".answerDisplay").show();
         $(".answerDisplay").html(images.thumbsup);
 
@@ -118,7 +116,7 @@ window.onload = function() {
 		 
 		//If the player chooses the wrong answer, tell the player they selected the wrong option 
     //and then display the correct answer. Wait a few seconds, then show the next question.
-		else if	(!isCorrect(response) && countNow || run){
+		else if	(!isCorrect(response) && countNow){
         $("form").hide();
         $("#timer").hide();
         $(".answerFeedback").show();
@@ -182,6 +180,7 @@ window.onload = function() {
         if (!countNow) {
             countNow = true;
             timer.html(count);
+            $("#timer").show();
             
             var time = setInterval(function() {
                 if (count > 0) {
@@ -190,27 +189,11 @@ window.onload = function() {
 
                 } else if( count == 0) {
                 	timer.html(count);
-                	clearInterval(time);
-                  
                   // If the player runs out of time, tell the player that time's up and 
                   // display the correct answer. Wait a few seconds, then show the next question.
-                  $("form").hide();
-                  $("#timer").hide();
-                  $(".answerFeedback").show();
-                  $(".answerFeedback").html(images.timeUp);
+                  clearInterval(time);      
+                  displayImage();
 
-                  //run = true;
-
-                  // show the correct answer
-                  setTimeout(function(){
-                    $(".answerFeedback").hide();
-                    $(".answerDisplay").show();
-                    $(".answerDisplay").html(htmlAnswer);
-                    $("#correctAnswer").html(quiz[pointer].answer);
-
-                }, 2500);
-
-                 // numWrong++;
                 }
  
             }, 1000);
@@ -246,5 +229,37 @@ window.onload = function() {
     	}
 		
 	}
+
+    function displayImage() {
+                  $("form").hide();
+                  $("#timer").hide();
+                  $(".answerFeedback").show();
+                  $(".answerFeedback").html(images.timeUp);
+
+                  // show the correct answer
+                  setTimeout(function(){
+                    $(".answerFeedback").hide();
+                    $(".answerDisplay").show();
+                    $(".answerDisplay").html(htmlAnswer);
+                    $("#correctAnswer").html(quiz[pointer].answer);
+
+                  },
+                  2500
+                );
+
+                  setTimeout(function(){
+                   newQuestionPage();
+                   $(".answerDisplay").hide();
+                   $("form").show();
+                   console.log("now");
+
+                  },
+                  5000
+                );
+
+           }       
+                
+
+                  
 
 };
