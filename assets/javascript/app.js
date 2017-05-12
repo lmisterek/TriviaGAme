@@ -21,7 +21,22 @@ var quiz = [{
 		"choices": ["cubit", "stone", "karat", "quire", "parsec"],
 		"correct": "a",
     "answer": "cubit"
-	}
+	},
+
+  {
+    "question": "Who deduced the heights of the pyramids from the lengths of their shadows and measured the distance to a ship from shore by the method of similar triangles?",
+    "choices": ["Plato", "Galen", "Thales", "Pericles", "Euripides"],
+    "correct": "c",
+    "answer": "Thales"
+  },
+
+  {
+    "question": "Who collaborated with Alfred North Whitehead in writing 'Principia Mathematica' and later won the 1950 Nobel prize for literature?",
+    "choices": ["M.C. Escher", "Jean Wourier", "Norbert Weiner", "Leonhard Euler", "Bertrand Russell"],
+    "correct": "e",
+    "answer": "Bertrand Russell"
+  },
+
 
 ]
 
@@ -32,10 +47,10 @@ var images = { "thumbsup":"<img src='assets/images/congrats.gif' alt='Thumbs UP'
         "timeUp": "<img src='assets/images/timeUp.png'; alt='Time UP' id='timeUp' style= 'width:304px;height:228px;'>"}
 
 // html for displaying correct answer
-var htmlAnswer = "<div class='page-header'><h1>The correct answer was:  </h1><p id = 'correctAnswer'/></div>";
+//var htmlAnswer = "<div class='page-header'><h1>The correct answer was:  </h1><p id = 'correctAnswer'/></div>";
 
   // number of seconds for each question
-  var num = 5;  
+  var num = 10;  
   
   // do not start counting until a question pops up
   var countNow;
@@ -94,11 +109,12 @@ window.onload = function() {
         // Hide the form and timer,then display the image for a correct response
   			$("form").hide();
         $("#timer").hide();
-        $(".answerDisplay").show();
-        $(".answerDisplay").html(images.thumbsup);
+        $(".answerFeedback").show();
+        $(".answerFeedback").html(images.thumbsup);
 
   			// show the new question after 2 seconds
   			setTimeout(function(){
+            $(".answerFeedback").hide();
             $(".answerDisplay").hide();
             $("form").show();
   					newQuestionPage(); 
@@ -116,16 +132,16 @@ window.onload = function() {
 		else if	(!isCorrect(response) && countNow){
         $("form").hide();
         $("#timer").hide();
-        $(".answerFeedback").show();
+
         $(".answerFeedback").html(images.tears);
+        $(".answerFeedback").show();
   			
   			// show the correct answer
   			setTimeout(function(){
           $(".answerFeedback").hide();
-          $(".answerDisplay").show();
-  				$(".answerDisplay").html(htmlAnswer);
-  				$("#correctAnswer").html(correctResponse);
 
+          $("#correctAnswer").html(correctResponse);
+          $(".answerDisplay").show();
 			}, 2500);
 
   			// show the new question after 2 seconds
@@ -133,6 +149,7 @@ window.onload = function() {
   					$("form").show();
             $(".answerDisplay").hide();
   					newQuestionPage(); 
+
 			}, 5000);
 
   			numWrong++;
@@ -156,6 +173,8 @@ window.onload = function() {
 
       // hide the stats
       $("#stats").hide();
+
+      $(".answerDisplay").hide();
 
       // do not start counting until a question pops up
       countNow = false;
@@ -266,7 +285,7 @@ window.onload = function() {
                   setTimeout(function(){
                     $(".answerFeedback").hide();
                     $(".answerDisplay").show();
-                    $(".answerDisplay").html(htmlAnswer);
+                    //$(".answerDisplay").html(htmlAnswer);
                     $("#correctAnswer").html(quiz[pointer].answer);
 
                   },

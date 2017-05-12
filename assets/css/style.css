@@ -90,6 +90,8 @@ img {
     margin-left: -(X/2)px;
     margin-top: -(Y/2)px;
     max-width: 100%;
+    width:304px;
+    height:228px
 }
 
 #correctAnswer {
@@ -115,14 +117,17 @@ img {
     align-self: center;
 }
 
-h1 {
-  font-size: 200%; 
-}
-
 #correctAnswer {
   font-size: 150%; 
 }
 
+#stats {
+  font-size: 150%; 
+}
+
+.answerDisplay h1 {
+  font-size: 150%;
+}
 
 
 }
