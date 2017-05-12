@@ -155,12 +155,7 @@ window.onload = function() {
         // Stop Timer
         clearInterval(window.myTimer);
 
-		}
-  				
-  		
-
-
-  			
+		}		
   
 	});
 
@@ -228,7 +223,7 @@ window.onload = function() {
                   
                   // If the player runs out of time, tell the player that time's up and 
                   // display the correct answer. Wait a few seconds, then show the next question.
-                  clearInterval(time);      
+                  clearInterval(window.myTimer);      
                   displayImage();
                   numWrong++;
 
